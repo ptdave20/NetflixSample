@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NetflixSample.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:NetflixSample.Model"
+    Style="{StaticResource MainPage}"
+    mc:Ignorable="d">
+    <ContentPage.BindingContext>
+        <model:MainPageModel />
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.9*" />
+        </Grid.RowDefinitions>
+        <Image
+            Grid.Row="0"
+            Margin="3"
+            Aspect="AspectFill"
+            HorizontalOptions="{OnIdiom Phone=CenterAndExpand,
+                                        Tablet=StartAndExpand}">
+            <Image.Source>
+                <FileImageSource File="netflix.png" />
+            </Image.Source>
+        </Image>
+        <ListView
+            Grid.Row="1"
+            BackgroundColor="#171717"
+            HasUnevenRows="True"
+            ItemsSource="{Binding Sections}"
+            SeparatorVisibility="None"
+            VerticalOptions="FillAndExpand">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.BindingContext>
+                            <model:Section />
+                        </ViewCell.BindingContext>
+                        <StackLayout
+                            Padding="5"
+                            HorizontalOptions="FillAndExpand"
+                            Orientation="Vertical"
+                            Style="{StaticResource Section}"
+                            VerticalOptions="FillAndExpand">
+                            <Label
+                                Margin="0,2,0,2"
+                                FontSize="Medium"
+                                Style="{StaticResource SectionLabel}"
+                                Text="{Binding SectionName}" />
+                            <ScrollView
+                                Padding="0"
+                                HeightRequest="160"
+                                HorizontalOptions="FillAndExpand"
+                                HorizontalScrollBarVisibility="Never"
+                                Orientation="Horizontal"
+                                VerticalOptions="FillAndExpand"
+                                VerticalScrollBarVisibility="Never">
+                                <FlexLayout
+                                    BindableLayout.ItemsSource="{Binding Shows}"
+                                    Direction="Row"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="FillAndExpand"
+                                    Wrap="NoWrap">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <ffimageloading:CachedImage
+                                                Margin="4"
+                                                Aspect="AspectFit"
+                                                HeightRequest="140"
+                                                Source="{Binding ShowImage}" />
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </FlexLayout>
+                            </ScrollView>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+
+</ContentPage>
